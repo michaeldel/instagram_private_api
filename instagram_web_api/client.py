@@ -284,7 +284,7 @@ class Client(object):
             return json.loads(response_content)
 
         except compat_urllib_error.HTTPError as e:
-            msg = 'HTTPError "{0!s}" while opening {1!s}'.format(e.reason, url)
+            msg = e.read().decode()
             if e.code == 400:
                 raise ClientBadRequestError(msg, e.code)
             elif e.code == 403:
