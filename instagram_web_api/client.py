@@ -27,7 +27,7 @@ from .compatpatch import ClientCompatPatch
 from .errors import (
     ClientError, ClientLoginError, ClientCookieExpiredError,
     ClientConnectionError, ClientBadRequestError,
-    ClientForbiddenError, ClientThrottledError,
+    ClientForbiddenError, ClientThrottledError, ClientRedirectedToLoginError
 )
 try:  # Python 3:
     # Not a no-op, we're adding this to the namespace so it can be imported.
@@ -268,6 +268,10 @@ class Client(object):
             ))
             self.logger.debug('REQ DATA: {0!s}'.format(data))
             res = self.opener.open(req, data=data, timeout=self.timeout)
+
+            # FIXME: refactor dirty hack
+            if res.geturl().endswith('/accounts/login/'):
+                raise ClientRedirectedToLoginError
 
             self.logger.debug('RESPONSE: {0:d} {1!s}'.format(
                 res.code, res.geturl()

@@ -41,3 +41,7 @@ class ClientForbiddenError(ClientError):
 class ClientThrottledError(ClientError):
     """Raised due to a HTTP 429 response"""
     pass
+
+
+class ClientRedirectedToLoginError(ClientError):
+    pass

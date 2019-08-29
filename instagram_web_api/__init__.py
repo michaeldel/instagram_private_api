@@ -5,7 +5,7 @@ from .compatpatch import ClientCompatPatch
 from .errors import (
     ClientError, ClientLoginError, ClientCookieExpiredError,
     ClientConnectionError, ClientForbiddenError,
-    ClientThrottledError,ClientBadRequestError,
+    ClientThrottledError,ClientBadRequestError, ClientRedirectedToLoginError
 )
 from .common import ClientDeprecationWarning
 
