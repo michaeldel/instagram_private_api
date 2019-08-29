@@ -42,6 +42,10 @@ logger = logging.getLogger(__name__)
 warnings.simplefilter('always', ClientDeprecationWarning)
 
 
+class RedirectedToLoginError(ClientError):
+    pass
+
+
 def login_required(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
@@ -268,6 +272,10 @@ class Client(object):
             ))
             self.logger.debug('REQ DATA: {0!s}'.format(data))
             res = self.opener.open(req, data=data, timeout=self.timeout)
+            
+            # FIXME: refactor dirty hack
+            if res.geturl().endswith('/accounts/login/'):
+                raise RedirectedToLoginError
 
             self.logger.debug('RESPONSE: {0:d} {1!s}'.format(
                 res.code, res.geturl()
