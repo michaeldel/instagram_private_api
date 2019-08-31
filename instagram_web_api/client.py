@@ -271,7 +271,7 @@ class Client(object):
 
             # FIXME: refactor dirty hack
             if res.geturl().endswith('/accounts/login/'):
-                raise ClientRedirectedToLoginError
+                raise ClientRedirectedToLoginError("Redirected to login", res.code)
 
             self.logger.debug('RESPONSE: {0:d} {1!s}'.format(
                 res.code, res.geturl()
